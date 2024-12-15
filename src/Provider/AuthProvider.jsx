@@ -20,12 +20,18 @@ const createUser = (email, password) => {
         createUser
     }
 
-    console.log(user)
+   
 
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged()
+        const unsubscribe = onAuthStateChanged(auth, (existUser) => {
+            setUser(existUser)
+        })
+        return () => {
+            unsubscribe()
+        }
     }, [])
+    console.log(user)
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
