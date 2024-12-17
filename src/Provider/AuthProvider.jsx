@@ -23,14 +23,14 @@ const createUser = (email, password) => {
    
 
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (existUser) => {
-            setUser(existUser)
-        })
-        return () => {
-            unsubscribe()
-        }
-    }, [])
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (existUser) => {
+    //         setUser(existUser)
+    //     })
+    //     return () => {
+    //         unsubscribe()
+    //     }
+    // }, [])
     console.log(user)
     return (
         <AuthContext.Provider value={authInfo}>

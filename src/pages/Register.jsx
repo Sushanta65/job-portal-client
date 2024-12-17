@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import registerLottie from '../assets/lotties/register.json'
 import Lottie from "lottie-react";
 import { AuthContext } from "../Provider/AuthProvider";
+import axios from "axios";
 
 const Register = () => {
   const {createUser, setLoading, setUser} = useContext(AuthContext)
@@ -15,6 +16,14 @@ const Register = () => {
     createUser(email, password)
     .then(data => {
       setUser(data.user)
+
+      const newUser = {email: email}
+      axios.post('http://localhost:5200/jwt', newUser, {withCredentials: true})
+      .then(res => {
+        console.log('Data', res.data)
+      })
+
+
     }).catch(err => {
       console.log(err.message)
     })
