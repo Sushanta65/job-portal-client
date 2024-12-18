@@ -4,7 +4,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 
 const Navbar = () => {
 
-  const {user} = useContext(AuthContext)
+  const {user, userSignOut} = useContext(AuthContext)
 
   const links = (
     <>
@@ -19,6 +19,9 @@ const Navbar = () => {
       </li></> : ''}
     </>
   );
+
+  
+
   return (
     <div className="navbar bg-base-100 container mx-auto">
       <div className="navbar-start">
@@ -52,7 +55,7 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        {user.email && <button>Logout</button>}
+        {user.email && <button onClick={userSignOut}>Logout</button>}
         
       </div>
     </div>
