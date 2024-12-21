@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 import auth from '../Firebase/firebase.init';
+import axios from 'axios';
 
 export const AuthContext = createContext()
 
@@ -21,7 +22,7 @@ const createUser = (email, password) => {
         signOut(auth)
         .then(data => {
             console.log(data)
-            setUser([])
+            
         })
         .catch(err => {
             console.log(err.message)
@@ -40,14 +41,29 @@ const createUser = (email, password) => {
    
 
 
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, (existUser) => {
-    //         setUser(existUser)
-    //     })
-    //     return () => {
-    //         unsubscribe()
-    //     }
-    // }, [])
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (existUser) => {
+            setUser(existUser)
+            const loggedInUser = {email: existUser?.email}
+            if(existUser?.email){
+                axios.post('http://localhost:5200/jwt', loggedInUser, {withCredentials: true})
+                .then(res => {
+                    console.log(res.data)
+                })
+            }
+            else{
+                axios.post('http://localhost:5200/logout', {}, {withCredentials: true})
+                .then(res => {
+                    console.log(res.data)
+                })
+            }
+        })
+
+        
+        return () => {
+            unsubscribe()
+        }
+    }, [])
     console.log(user)
     return (
         <AuthContext.Provider value={authInfo}>

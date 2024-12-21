@@ -13,8 +13,10 @@ const Login = () => {
         const password = form.password.value;
         signInUser(email, password)
         .then(data => {
+            const newUser = {email: email}
             setUser(data.user)
-            axios.post('/jwt',)
+            axios.post('http://localhost:5200/jwt', newUser, {withCredentials: true})
+            .then(res => console.log(res.data))
         })
         .catch(err => {
             console.log(err.message)
